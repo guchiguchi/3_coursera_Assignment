@@ -1,6 +1,6 @@
 # 1.Summary
 
-
+This code book is summary of datasets that I use and my output.
 
 # 2.Original dataset
 
@@ -76,33 +76,33 @@ The data set all_summary.txt contains the following variables:
 # 4.Data transformation
 
 1. read datasets
-    activity_labels.txt
-    features.txt
-    subject_test.txt
-    X_test.txt
-    y_test.txt
-    subject_train.txt
-    X_train.txt
-    y_train.txt
+    - activity_labels.txt
+    -  features.txt
+    - subject_test.txt
+    - X_test.txt
+    -  y_test.txt
+    -  subject_train.txt
+    -  X_train.txt
+    -  y_train.txt
 
 2. combine the test and training data sets
-    i. x_all <- bind_rows(X_train, X_test)
-    i. y_all <- bind_rows(y_train, y_test)
-    i. subj_all <- bind_rows(subject_train, subject_test)
-    i. all <- cbind(subj_all, y_all, x_all)
+    - x_all <- bind_rows(X_train, X_test)
+    - y_all <- bind_rows(y_train, y_test)
+    - subj_all <- bind_rows(subject_train, subject_test)
+    - all <- cbind(subj_all, y_all, x_all)
     
 3. Extracts only the measurements on the mean and standard deviation for each measurement. 
-    i. all_colnames_meanstd <- all %>% select(subject, num, contains("mean"), contains("std"))
+    - all_colnames_meanstd <- all %>% select(subject, num, contains("mean"), contains("std"))
 
 
 4. Uses descriptive activity names to name the activities in the data set
 
-    i. all_colnames_meanstd <- left_join(all_colnames_meanstd, activity_labels, by = c("num" = "colnumber"))
+    - all_colnames_meanstd <- left_join(all_colnames_meanstd, activity_labels, by = c("num" = "colnumber"))
 
 
 5. Create a 'tidy' dataset(all_gather)
-    i. all_gather <- all_colnames_meanstd %>% gather("features2", "value", 4:89) 
+    - all_gather <- all_colnames_meanstd %>% gather("features2", "value", 4:89) 
 
 
 6. Create summary dataset(all_summary)
-    i. summarise mean of variables
+    - summarise mean of variables
