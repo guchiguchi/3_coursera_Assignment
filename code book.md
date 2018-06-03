@@ -76,14 +76,14 @@ The data set all_summary.txt contains the following variables:
 # 4.Data transformation
 
 1. read datasets
-    i. activity_labels.txt
-    i. features.txt
-    i. subject_test.txt
-    i. X_test.txt
-    i. y_test.txt
-    i. subject_train.txt
-    i. X_train.txt
-    i. y_train.txt
+    activity_labels.txt
+    features.txt
+    subject_test.txt
+    X_test.txt
+    y_test.txt
+    subject_train.txt
+    X_train.txt
+    y_train.txt
 
 2. combine the test and training data sets
     i. x_all <- bind_rows(X_train, X_test)
