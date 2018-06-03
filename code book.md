@@ -10,10 +10,10 @@ Use datasets below
 
     activity_labels.txt
     features.txt
-    subject_test.txt (_test files are in the 'test' folder in the original .zip file)
+    subject_test.txt
     X_test.txt
     y_test.txt
-    subject_train.txt (_train files are in the 'train' folder in the original .zip file)
+    subject_train.txt
     X_train.txt
     y_train.txt
 
@@ -65,36 +65,44 @@ The data set all_gather.txt contains the following variables:
 The data set all_summary.txt contains the average of each variable for each activity and each subject
 The data set all_summary.txt contains the following variables:
   
--"subject" identifies the subject who performed the activity
--"num"  define activity like 1 WALKING, 2 WALKING_UPSTAIRS, 3 WALKING_DOWNSTAIRS, 4 SITTING, 5 STANDING, 6 LAYING         
--"activity"    difeine activity name       
--"features2"  selected variables its contains "mean" or "std"
--"avg_value"  average value of masurements
+- "subject" identifies the subject who performed the activity
+- "num"  define activity like 1 WALKING, 2 WALKING_UPSTAIRS, 3 WALKING_DOWNSTAIRS, 4 SITTING, 5 STANDING, 6 LAYING         
+- "activity"    difeine activity name       
+- "features2"  selected variables its contains "mean" or "std"
+- "avg_value"  average value of masurements
 
-
-# 2.Original dataset
-
-Download "UCI HAR Dataset" from [here](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)
-
-    activity_labels.txt
-    features.txt
-    subject_test.txt (_test files are in the 'test' folder in the original .zip file)
-    X_test.txt
-    y_test.txt
-    subject_train.txt (_train files are in the 'train' folder in the original .zip file)
-    X_train.txt
-    y_train.txt
-
-
-*The dataset includes the following files:*
 
 
 # 4.Data transformation
 
-My output is all_gather.txt and all_summary.txt
+1. read datasets
+    i. activity_labels.txt
+    i. features.txt
+    i. subject_test.txt
+    i. X_test.txt
+    i. y_test.txt
+    i. subject_train.txt
+    i. X_train.txt
+    i. y_train.txt
+
+2. combine the test and training data sets
+    i. x_all <- bind_rows(X_train, X_test)
+    i. y_all <- bind_rows(y_train, y_test)
+    i. subj_all <- bind_rows(subject_train, subject_test)
+    i. all <- cbind(subj_all, y_all, x_all)
+    
+3. Extracts only the measurements on the mean and standard deviation for each measurement. 
+    i. all_colnames_meanstd <- all %>% select(subject, num, contains("mean"), contains("std"))
 
 
+4. Uses descriptive activity names to name the activities in the data set
+
+    i. all_colnames_meanstd <- left_join(all_colnames_meanstd, activity_labels, by = c("num" = "colnumber"))
 
 
+5. Create a 'tidy' dataset(all_gather)
+    i. all_gather <- all_colnames_meanstd %>% gather("features2", "value", 4:89) 
 
-# 5.
+
+6. Create summary dataset(all_summary)
+    i. summarise mean of variables
